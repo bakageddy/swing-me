@@ -17,39 +17,52 @@ import javax.swing.JLabel;
 
 public class imageViewer {
     public static void main(String args[]) {
+
         if (args.length < 1) {
             System.out.println("Usage: imageViewer <path_to_image>");
             return;
-        } else {
-            String path = args[0];
-            File dir = new File(path);
-            File files[] = dir.listFiles();
-            List<File> list = Arrays.asList(files);
-            for (File file: list) {
-                if (file.getName().endsWith(".jpg")) {
-                    continue;
-                } else {
-                    list.remove(file);
-                }
-            }
-            try {
-                ImageDrawer myView = new ImageDrawer(list);
-                myView.go();
-            } catch(IOException e) {
-                System.out.println(e.getMessage());
-            }
-
         }
+
+
+        String path = args[0];
+        File dir = new File(path);
+        File files[] = dir.listFiles();
+        List<File> list = Arrays.asList(files);
+
+
+        for (File file: list) {
+            if (file.getName().endsWith(".jpg") || file.getName().endsWith(".png")) {
+                continue;
+            } else if (file.isDirectory()) {
+                continue;
+            }
+            else {
+                list.remove(file);
+            }
+        }
+
+
+        try {
+            ImageDrawer myView = new ImageDrawer(list);
+            myView.go();
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }
 
 class ImageDrawer {
+
     JFrame win;
     JButton next, prev;
     JLabel image;
     int pos;
     List<File> myList;
+
+
     public ImageDrawer(List<File> list) throws IOException {
+
         win = new JFrame();
         next = new JButton("→");
         prev = new JButton("←");
@@ -66,10 +79,12 @@ class ImageDrawer {
         win.setResizable(true);
         win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        win.add(next);
-        win.add(image);
+        // Order matters here
         win.add(prev);
+        win.add(image);
+        win.add(next);
 
+        // Add event handlers
         next.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (pos + 1 == myList.size()) {
@@ -104,7 +119,8 @@ class ImageDrawer {
     public void go() throws IOException {
         File img = myList.get(pos);
         BufferedImage imgBuffer = ImageIO.read(img);
-        ImageIcon foo = new ImageIcon(imgBuffer);
+        Image scaled = imgBuffer.getScaledInstance(1200, 675, BufferedImage.SCALE_SMOOTH);
+        ImageIcon foo = new ImageIcon(scaled);
         image.setIcon(foo);
     }
 }
