@@ -29,17 +29,26 @@ public class imageViewer {
         File files[] = dir.listFiles();
         List<File> list = Arrays.asList(files);
 
+        list.removeIf((file) -> {
+            return (!file.getName().endsWith(".jpg")
+                    && (!file.getName().endsWith(".png"))
+                    && (!file.getName().endsWith(".jpeg"))
+                    && (file.isDirectory()));
+        });
 
-        for (File file: list) {
-            if (file.getName().endsWith(".jpg") || file.getName().endsWith(".png")) {
-                continue;
-            } else if (file.isDirectory()) {
-                continue;
-            }
-            else {
-                list.remove(file);
-            }
-        }
+        // for (File file: list) {
+        //     if (!file.getName().endsWith(".jpg")) {
+        //         list.toArray;
+        //     } else if (!file.getName().endsWith(".png")) {
+        //         list.remove(file);
+        //     } else if (!file.getName().endsWith(".jpeg")) {
+        //         list.remove(file);
+        //     } else if (!file.getName().endsWith(".webp")) {
+        //         list.remove(file);
+        //     } else if (file.isDirectory()) {
+        //         list.remove(file);
+        //     }
+        // }
 
 
         try {
