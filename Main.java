@@ -1,37 +1,51 @@
-import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class Main {
-    public static void main(final String args[]) {
-        new Converter();
+    public static void main(String[] args) {
+        createWindow();
     }
-}
 
-public class Converter {
-    // Final keyword makes it constant
-    final JFrame myFrame;
-    final JButton myButton;
-    final JTextField textField;
-    Converter() {
-        myFrame = new JFrame();
-        myButton = new JButton("Convert!");
-        textField = new JTextField();
-        myButton.setBounds(50, 50, 150, 20);
-        textField.setBounds(50, 100, 95, 30);
-        myButton.addActionListener(new ActionListener() {
+    private static void createWindow() {
+        JFrame frame = new JFrame("Money Converter");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        createUI(frame);
+        frame.setSize(560, 200);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    private static void createUI(final JFrame frame) {
+        JPanel panel = new JPanel();
+        LayoutManager layout = new FlowLayout();
+        panel.setLayout(layout);
+
+        JButton button = new JButton("Hi");
+        final JLabel label = new JLabel();
+        button.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                textField.setText("Hi, lets go convert some money!!");
+                String result = (String) JOptionPane.showInputDialog(
+                        frame,
+                        "Select one of the color",
+                        "Swing Tester",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        "Red"
+                        );
+                if (result != null && result.length() > 0) {
+                    label.setText("You Selected: " + result);
+                } else {
+                    label.setText("None Selected");
+                }
             }
         });
-        myFrame.add(myButton);
-        myFrame.add(textField);
-        myFrame.setSize(400, 400);
-        myFrame.setLayout(null);
-        myFrame.setVisible(true);
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.add(button);
+        panel.add(label);
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
     }
 }
