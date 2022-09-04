@@ -1,6 +1,3 @@
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -32,7 +29,7 @@ class Converter extends JFrame implements KeyListener {
     void setTextOnLabel() {
         String amountString = "";
         double amount = Double.parseDouble(textField.getText());
-        amountString += (amount * CONV_RATE);
+        amountString += (int) (amount * CONV_RATE) + " rupees";
         label.setText(amountString);
     }
 
